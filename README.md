@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# VIN Decoder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**VIN Decoder** is a lightweight Single Page Application (SPA) that decodes a Vehicle Identification Number (VIN) to extract detailed information about a vehicle. It utilizes the public [NHTSA API](https://vpic.nhtsa.dot.gov/api/) for comprehensive and official vehicle variables.
 
-Currently, two official plugins are available:
+**[Live Demo](https://dimononon.github.io/vin-decoder/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **VIN Decoding:** Input a 17-character VIN to fetch make, model, year, and detailed specifications.
+- **Search History:** Automatically saves your 3 most recent, successful VIN decodes locally using `localStorage`.
+- **Global Caching:** Vehicle Variables definitions are fetched once from the API and cached globally via React Context to severely reduce unnecessary network traffic.
+- **Variable Encyclopedia:** Full list of available vehicle variables, filtered through a real-time, case-insensitive search feature.
+- **Minimalistic UI:** Custom-built relying securely on modern Vanilla CSS with strict BEM structure formatting.
+- **Robust Validation:** Strict pre-submission input rules (removes illegal `I`, `O`, `Q` characters, adheres to standard 17 string-length boundaries).
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Framework:** React 19 (Hooks, Context, Memoization)
+- **Routing:** React Router v7 (`HashRouter` natively configured for GitHub pages)
+- **Language:** TypeScript
+- **Styling:** Vanilla CSS3 + variables + layout Grid/Flexbox
+- **Build Tool:** Vite
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Make sure you have Node.js and NPM installed on your machine.
+
+### Installation & Local Server
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/dimononon/vin-decoder.git
+   cd vin-decoder
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   _The application will now be running on `http://localhost:5173/vin-decoder/`_
+
+### Building for Production
+
+To generate a fully optimized and minified production build:
+
+```bash
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Deployment (GitHub Pages)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The project includes automated deployment scripts specifically designed for simple push-and-forget publishing.
+To publish your local changes to `gh-pages` branch, simply run:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run deploy
 ```
+
+## API Reference
+
+This project strictly relies on the U.S. Department of Transportation (`NHTSA`).
+
+- **Decode Endpoint:** `/vehicles/decodevin/{vin}?format=json`
+- **Variables Endpoint:** `/vehicles/getvehiclevariablelist?format=json`
